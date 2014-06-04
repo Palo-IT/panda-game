@@ -1,0 +1,18 @@
+panda_game_common:
+    resource: "@PandaGameCommonBundle/Resources/config/routing.yml"
+
+
+panda_game_user:
+    type: rest
+    prefix:   /api
+    defaults: {_format: json}
+    resource: "@PandaGameUserBundle/Resources/config/routing.yml"
+
+
+NelmioApiDocBundle:
+    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
+    prefix:   /api/doc
+
+_console:
+    resource: "@CoreSphereConsoleBundle/Resources/config/routing.yml"
+    prefix: /_console

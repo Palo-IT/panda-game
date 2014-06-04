@@ -1,0 +1,5 @@
+panda_game_user_user:
+    type: rest
+    prefix: /
+    resource: PandaGame\Bundle\UserBundle\Controller\UserController
+    name_prefix:  user_
