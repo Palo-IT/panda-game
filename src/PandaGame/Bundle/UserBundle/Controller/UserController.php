@@ -2,6 +2,9 @@
 
 namespace PandaGame\Bundle\UserBundle\Controller;
 
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use JMS\Serializer\SerializationContext;
 use FOS\RestBundle\Controller\Annotations\View;
@@ -17,6 +20,10 @@ use PandaGame\Bundle\CommonBundle\Controller\BaseController;
 class UserController extends BaseController
 {
     /**
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
      * @View
      * @QueryParam(
      *  name="sort",
@@ -26,17 +33,56 @@ class UserController extends BaseController
      *
      * @ApiDoc(resource=true, description="Get all the users")
      */
-    public function cgetAction()
+    public function cgetAction(Request $request)
     {
-        $users = $this->getUserRepository()->findBy(array(), array('username' => 'ASC'));
+        $defaultOrder = array('username' => 'ASC');
+        $order = $this->formatOrderAsArray($request->get('order'), $defaultOrder);
 
-        $view = $this->view($users , 200);
-        //$view->setSerializationContext(SerializationContext::create()->setGroups(array('list')));
+        $users = $this->getUserRepository()->findBy(array(), $order);
+
+        $view = $this->view($users, $this->getResponseCodeForList($users));
+        $view->setSerializationContext(SerializationContext::create()->setGroups(array('list')));
 
         return $this->handleView($view);
     }
 
     /**
+     * @param $usernameCanonical
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     *
+     * @View
+     *
+     * @ApiDoc(resource=true, description="Get all the scores by usernameCanonical")
+     */
+    public function getScoresAction(Request $request, $usernameCanonical)
+    {
+        $user = $this->getUserRepository()->findOneByUsernameCanonical($usernameCanonical);
+
+        if (!$user) {
+            throw new NotFoundHttpException();
+        }
+
+        $defaultOrder = array('creation' => 'ASC');
+        $order = $this->formatOrderAsArray($request->get('order'), $defaultOrder);
+
+        $criteria = array('user' => $user);
+        $scores = $this->getScoreRepository()->findBy($criteria, $order);
+
+        $view = $this->view($scores, $this->getResponseCodeForList($scores));
+
+        return $this->handleView($view);
+    }
+
+    /**
+     * @param $usernameCanonical
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     *
+     *
      * @View
      *
      * @ApiDoc(resource=true, description="Get a user by usernameCanonical")
@@ -49,8 +95,58 @@ class UserController extends BaseController
             throw new NotFoundHttpException();
         }
 
-        $view = $this->view($user, 200);
+        $view = $this->view($user, Response::HTTP_OK);
 
         return $this->handleView($view);
+    }
+
+    public function postAction()
+    {
+        return new JsonResponse(
+            null,
+            Response::HTTP_CREATED
+        );
+    }
+
+    public function putAction($usernameCanonical)
+    {
+        $user = $this->getUserRepository()->findOneByUsernameCanonical($usernameCanonical);
+
+        if (!$user) {
+            throw new NotFoundHttpException();
+        }
+
+        return new JsonResponse(
+            null,
+            Response::HTTP_OK
+        );
+    }
+
+    public function banAction($usernameCanonical)
+    {
+        $user = $this->getUserRepository()->findOneByUsernameCanonical($usernameCanonical);
+
+        if (!$user) {
+            throw new NotFoundHttpException();
+        }
+
+        return new JsonResponse(
+            null,
+            Response::HTTP_OK
+        );
+    }
+
+    public function deleteAction($usernameCanonical)
+    {
+        $user = $this->getUserRepository()->findOneByUsernameCanonical($usernameCanonical);
+
+        if (!$user) {
+            throw new NotFoundHttpException();
+        }
+
+        return new JsonResponse(
+            null,
+            Response::HTTP_OK
+        );
     }
 }

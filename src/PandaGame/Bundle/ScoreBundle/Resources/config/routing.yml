@@ -1,0 +1,5 @@
+panda_game_score_score:
+    type: rest
+    prefix: /
+    resource: PandaGame\Bundle\ScoreBundle\Controller\ScoreController
+    name_prefix:  user_

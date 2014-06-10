@@ -1,12 +1,18 @@
-panda_game_common:
-    resource: "@PandaGameCommonBundle/Resources/config/routing.yml"
-
+panda_game_score:
+    type: rest
+    prefix:   /api
+    defaults: {_format: json}
+    resource: "@PandaGameScoreBundle/Resources/config/routing.yml"
 
 panda_game_user:
     type: rest
     prefix:   /api
     defaults: {_format: json}
     resource: "@PandaGameUserBundle/Resources/config/routing.yml"
+
+
+panda_game_common:
+    resource: "@PandaGameCommonBundle/Resources/config/routing.yml"
 
 
 NelmioApiDocBundle:

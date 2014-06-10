@@ -1,7 +1,8 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
     ],
     "hash": "593fcc94bdaaeee49a33783085914569",
     "packages": [
@@ -742,12 +743,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSRestBundle.git",
-                "reference": "b07203b3895fb30545526a723cc8f5207181b4a8"
+                "reference": "d37f4410e6a97e81c720840b56e35c3a44942723"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/b07203b3895fb30545526a723cc8f5207181b4a8",
-                "reference": "b07203b3895fb30545526a723cc8f5207181b4a8",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/d37f4410e6a97e81c720840b56e35c3a44942723",
+                "reference": "d37f4410e6a97e81c720840b56e35c3a44942723",
                 "shasum": ""
             },
             "require": {
@@ -812,7 +813,7 @@
             "keywords": [
                 "rest"
             ],
-            "time": "2014-06-03 11:47:03"
+            "time": "2014-06-04 13:11:41"
         },
         {
             "name": "friendsofsymfony/user-bundle",
@@ -2527,7 +2528,7 @@
             ],
             "authors": [
                 {
-                    "name": "William DURAND",
+                    "name": "William Durand",
                     "email": "william.durand1@gmail.com",
                     "homepage": "http://www.willdurand.fr"
                 }

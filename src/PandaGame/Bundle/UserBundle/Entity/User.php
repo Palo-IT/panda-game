@@ -2,6 +2,7 @@
 
 namespace PandaGame\Bundle\UserBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -25,17 +26,36 @@ class User extends BaseUser
     protected $id;
 
     /**
+     * @Groups({"list", "details"})
+     */
+    protected $username;
+
+    /**
+     * @Groups({"list", "details"})
+     */
+    protected $usernameCanonical;
+
+    /**
      * @var string $content
      *
      * @ORM\Column(name="avatar", type="string", nullable=false)
      *
      * @Groups({"list", "details"})
      */
-    protected $avatar = 'default-avatar.png';
+    private $avatar = 'default-avatar.png';
+
+    /**
+     * @var ArrayCollection $score
+     *
+     * @ORM\OneToMany(targetEntity="PandaGame\Bundle\ScoreBundle\Entity\Score", mappedBy="user", indexBy="id")
+     */
+    private $scores;
 
     public function __construct()
     {
         parent::__construct();
+
+        $this->scores = new ArrayCollection();
     }
 
     /**
@@ -69,5 +89,25 @@ class User extends BaseUser
         $this->avatar = $avatar;
 
         return $this;
+    }
+
+    /**
+     * @param \Doctrine\Common\Collections\ArrayCollection $scores
+     *
+     * @return $this
+     */
+    public function setScores($scores)
+    {
+        $this->scores = $scores;
+
+        return $this;
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getScores()
+    {
+        return $this->scores;
     }
 }
