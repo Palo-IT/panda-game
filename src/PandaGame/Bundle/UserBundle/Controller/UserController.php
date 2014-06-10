@@ -26,8 +26,8 @@ class UserController extends BaseController
      *
      * @View
      * @QueryParam(
-     *  name="sort",
-     *  requirements="(username|-username)",
+     *  name="order",
+     *  requirements="(username|username-)",
      *  description="Order results by parameter. If the parameter is prefixed by '-' we go in decreasing order."
      * )
      *
@@ -72,6 +72,7 @@ class UserController extends BaseController
         $scores = $this->getScoreRepository()->findBy($criteria, $order);
 
         $view = $this->view($scores, $this->getResponseCodeForList($scores));
+        $view->setSerializationContext(SerializationContext::create()->setGroups(array('list')));
 
         return $this->handleView($view);
     }
@@ -100,7 +101,12 @@ class UserController extends BaseController
         return $this->handleView($view);
     }
 
-    public function postAction()
+    /**
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @return JsonResponse
+     */
+    public function postAction(Request $request)
     {
         return new JsonResponse(
             null,
@@ -108,7 +114,14 @@ class UserController extends BaseController
         );
     }
 
-    public function putAction($usernameCanonical)
+    /**
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param                                           $usernameCanonical
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     * @return JsonResponse
+     */
+    public function putAction(Request $request, $usernameCanonical)
     {
         $user = $this->getUserRepository()->findOneByUsernameCanonical($usernameCanonical);
 
@@ -122,6 +135,12 @@ class UserController extends BaseController
         );
     }
 
+    /**
+     * @param $usernameCanonical
+     *
+     * @return JsonResponse
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     */
     public function banAction($usernameCanonical)
     {
         $user = $this->getUserRepository()->findOneByUsernameCanonical($usernameCanonical);
@@ -136,6 +155,12 @@ class UserController extends BaseController
         );
     }
 
+    /**
+     * @param $usernameCanonical
+     *
+     * @return JsonResponse
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     */
     public function deleteAction($usernameCanonical)
     {
         $user = $this->getUserRepository()->findOneByUsernameCanonical($usernameCanonical);

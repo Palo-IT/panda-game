@@ -20,6 +20,8 @@ class Score
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     *
+     * @Groups({"list", "details"})
      */
     private $id;
 
@@ -57,6 +59,11 @@ class Score
      * @Groups({"list", "details"})
      */
     private $user;
+
+    public function __construct()
+    {
+        $this->setCreation(new \DateTime());
+    }
 
     /**
      * Get id
