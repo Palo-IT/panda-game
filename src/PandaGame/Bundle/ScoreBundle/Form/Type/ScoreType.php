@@ -18,8 +18,18 @@ class ScoreType extends AbstractType
 
     }
 
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array                $options
+     *
+     * @return $this
+     */
     private function addResultField(FormBuilderInterface $builder, array $options)
     {
+        $builder->add(
+            'result',
+            'integer'
+        );
 
         return $this;
     }
@@ -29,9 +39,12 @@ class ScoreType extends AbstractType
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class'      => 'PandaGame\Bundle\ScoreBundle\Entity\Score',
-        ));
+        $resolver->setDefaults(
+            array(
+                'data_class'      => 'PandaGame\Bundle\ScoreBundle\Entity\Score',
+                'csrf_protection' => false
+            )
+        );
     }
 
     /**
@@ -39,6 +52,6 @@ class ScoreType extends AbstractType
      */
     public function getName()
     {
-        return 'panda_game_score';
+        return '';
     }
 } 

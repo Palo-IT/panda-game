@@ -11,7 +11,6 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use PandaGame\Bundle\CommonBundle\Controller\BaseController;
 use PandaGame\Bundle\ScoreBundle\Entity\Score;
 use PandaGame\Bundle\ScoreBundle\Form\Type\ScoreType;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -45,6 +44,29 @@ class ScoreController extends BaseController
     }
 
     /**
+     * @param $id
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     *
+     * @View
+     *
+     * @ApiDoc(resource=true, description="Get a score by id")
+     */
+    public function getAction($id)
+    {
+        $score = $this->getScoreRepository()->find($id);
+
+        if (!$score) {
+            throw new NotFoundHttpException();
+        }
+
+        $view = $this->view($score, Response::HTTP_OK);
+
+        return $this->handleView($view);
+    }
+
+    /**
      * @param \Symfony\Component\HttpFoundation\Request $request
      *
      * @return JsonResponse
@@ -54,20 +76,50 @@ class ScoreController extends BaseController
         $score = new Score();
         $score->setUser($this->getCurrentUser());
 
-        $form = $this->createForm(new ScoreType(), $score);
+        return $this->processForm($request, $score);
+    }
 
+    /**
+     * @param Request $request
+     * @param Score   $score
+     *
+     * @return Response
+     */
+    private function processForm(Request $request, Score $score)
+    {
+        $statusCode = $score->isNew() ? Response::HTTP_CREATED : Response::HTTP_NO_CONTENT;
+
+        $form = $this->createForm(new ScoreType(), $score, array('method' => 'POST'));
         $form->handleRequest($request);
 
-        return new JsonResponse(
-            null,
-            Response::HTTP_CREATED
-        );
+        if ($form->isValid()) {
+            $this->getEntityManager()->persist($score);
+            $this->getEntityManager()->flush();
+
+            $response = new Response();
+            $response->setStatusCode($statusCode);
+
+            if (Response::HTTP_CREATED === $statusCode) {
+                $response->headers->set('Location',
+                    $this->generateUrl(
+                        'score_get_score', array('id' => $score->getId()),
+                        true
+                    )
+                );
+            }
+
+            return $response;
+        }
+
+        $view = $this->view($form, Response::HTTP_BAD_REQUEST);
+
+        return $this->handleView($view);
     }
 
     /**
      * @param $id
      *
-     * @return JsonResponse
+     * @return Response
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      */
     public function deleteAction($id)
@@ -78,9 +130,12 @@ class ScoreController extends BaseController
             throw new NotFoundHttpException();
         }
 
-        return new JsonResponse(
-            null,
-            Response::HTTP_OK
-        );
+        $this->getEntityManager()->remove($score);
+        $this->getEntityManager()->flush();
+
+        $response = new Response();
+        $response->setStatusCode(Response::HTTP_OK);
+
+        return $response;
     }
 }

@@ -102,7 +102,7 @@ class Score
      */
     public function setResult($result)
     {
-        $this->result = $result;
+        $this->result = intval($result);
 
         return $this;
     }
@@ -133,5 +133,13 @@ class Score
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isNew()
+    {
+        return is_null($this->getId());
     }
 }
