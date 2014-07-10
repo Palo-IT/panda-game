@@ -33,7 +33,7 @@ class SponsorController extends BaseController
      */
     public function cgetAction(Request $request)
     {
-        $defaultOrder = array('creation' => 'DESC');
+        $defaultOrder = array('type' => 'DESC', 'name' => 'ASC');
         $order        = $this->formatOrderAsArray($request->get('order'), $defaultOrder);
 
         $sponsors = $this->getSponsorRepository()->findBy(array(), $order);
