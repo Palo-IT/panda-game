@@ -15,7 +15,7 @@ use JMS\Serializer\Annotation\Groups;
 class Score
 {
     /**
-     * @var integer $id
+     * @var int $id
      *
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
@@ -68,7 +68,7 @@ class Score
     /**
      * Get id
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {

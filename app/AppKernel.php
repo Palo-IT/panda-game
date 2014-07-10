@@ -30,6 +30,7 @@ class AppKernel extends Kernel
             new PandaGame\Bundle\UserBundle\PandaGameUserBundle(),
             new PandaGame\Bundle\CommonBundle\PandaGameCommonBundle(),
             new PandaGame\Bundle\ScoreBundle\PandaGameScoreBundle(),
+            new PandaGame\Bundle\SponsorBundle\PandaGameSponsorBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

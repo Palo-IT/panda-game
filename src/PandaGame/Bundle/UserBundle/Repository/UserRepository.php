@@ -9,4 +9,14 @@ use Doctrine\ORM\EntityRepository;
  */
 class UserRepository extends EntityRepository
 {
+    /**
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    public function getQueryBuilder()
+    {
+        $qb = $this->createQueryBuilder('user');
+        $qb->select('DISTINCT user');
+
+        return $qb;
+    }
 }

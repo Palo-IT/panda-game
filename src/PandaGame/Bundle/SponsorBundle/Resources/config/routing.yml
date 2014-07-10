@@ -1,0 +1,5 @@
+panda_game_sponsor_sponsor:
+    type: rest
+    prefix: /
+    resource: PandaGame\Bundle\SponsorBundle\Controller\SponsorController
+    name_prefix:  sponsor_

@@ -17,7 +17,7 @@ use JMS\Serializer\Annotation\Groups;
 class User extends BaseUser
 {
     /**
-     * @var integer $id
+     * @var int $id
      *
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
@@ -26,11 +26,15 @@ class User extends BaseUser
     protected $id;
 
     /**
+     * @var string $username
+     *
      * @Groups({"list", "details"})
      */
     protected $username;
 
     /**
+     * @var string $usernameCanonical
+     *
      * @Groups({"list", "details"})
      */
     protected $usernameCanonical;
@@ -61,7 +65,7 @@ class User extends BaseUser
     /**
      * Get id
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -109,5 +113,13 @@ class User extends BaseUser
     public function getScores()
     {
         return $this->scores;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isNew()
+    {
+        return is_null($this->getId());
     }
 }

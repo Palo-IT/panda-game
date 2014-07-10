@@ -1,6 +1,6 @@
 <?php
 
-namespace PandaGame\Bundle\ScoreBundle\Controller;
+namespace PandaGame\Bundle\SponsorBundle\Controller;
 
 use JMS\Serializer\SerializationContext;
 use FOS\RestBundle\Controller\Annotations\View;
@@ -13,13 +13,13 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 use PandaGame\Bundle\CommonBundle\Controller\BaseController;
-use PandaGame\Bundle\ScoreBundle\Entity\Score;
+use PandaGame\Bundle\SponsorBundle\Entity\Sponsor;
 use PandaGame\Bundle\ScoreBundle\Form\Type\ScoreType;
 
 /**
- * @RouteResource("Score")
+ * @RouteResource("Sponsor")
  */
-class ScoreController extends BaseController
+class SponsorController extends BaseController
 {
     /**
      * @View
@@ -29,40 +29,40 @@ class ScoreController extends BaseController
      *  description="Order results by parameter. If the parameter is prefixed by '-' we go in decreasing order."
      * )
      *
-     * @ApiDoc(resource=true, description="Get scores by username or for all")
+     * @ApiDoc(resource=true, description="Get all scores")
      */
     public function cgetAction(Request $request)
     {
         $defaultOrder = array('creation' => 'DESC');
         $order        = $this->formatOrderAsArray($request->get('order'), $defaultOrder);
 
-        $scores = $this->getScoreRepository()->findBy(array(), $order);
+        $sponsors = $this->getSponsorRepository()->findBy(array(), $order);
 
-        $view = $this->view($scores, $this->getResponseCodeForList($scores));
+        $view = $this->view($sponsors, $this->getResponseCodeForList($sponsors));
         $view->setSerializationContext(SerializationContext::create()->setGroups(array('list')));
 
         return $this->handleView($view);
     }
 
     /**
-     * @param $id
+     * @param $slug
      *
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      *
      * @View
      *
-     * @ApiDoc(resource=true, description="Get a score by id")
+     * @ApiDoc(resource=true, description="Get a sponsor by slug")
      */
-    public function getAction($id)
+    public function getAction($slug)
     {
-        $score = $this->getScoreRepository()->find($id);
+        $sponsor = $this->getSponsorRepository()->findBy(array('slug' => $slug));
 
-        if (!$score) {
+        if (!$sponsor) {
             throw new NotFoundHttpException();
         }
 
-        $view = $this->view($score, Response::HTTP_OK);
+        $view = $this->view($sponsor, Response::HTTP_OK);
 
         return $this->handleView($view);
     }
@@ -74,27 +74,26 @@ class ScoreController extends BaseController
      */
     public function postAction(Request $request)
     {
-        $score = new Score();
-        $score->setUser($this->getCurrentUser());
+        $sponsor = new Sponsor();
 
-        return $this->processForm($request, $score);
+        return $this->processForm($request, $sponsor);
     }
 
     /**
      * @param Request $request
-     * @param Score   $score
+     * @param Sponsor $sponsor
      *
      * @return Response
      */
-    private function processForm(Request $request, Score $score)
+    private function processForm(Request $request, Sponsor $sponsor)
     {
-        $statusCode = $score->isNew() ? Response::HTTP_CREATED : Response::HTTP_NO_CONTENT;
+        $statusCode = $sponsor->isNew() ? Response::HTTP_CREATED : Response::HTTP_NO_CONTENT;
 
-        $form = $this->createForm(new ScoreType(), $score, array('method' => 'POST'));
+        $form = $this->createForm(new ScoreType(), $sponsor, array('method' => 'POST'));
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $this->getEntityManager()->persist($score);
+            $this->getEntityManager()->persist($sponsor);
             $this->getEntityManager()->flush();
 
             $response = new Response();
@@ -104,8 +103,8 @@ class ScoreController extends BaseController
                 $response->headers->set(
                     'Location',
                     $this->generateUrl(
-                        'score_get_score',
-                        array('id' => $score->getId()),
+                        'sponsor_get_sponsor',
+                        array('id' => $sponsor->getSlug()),
                         true
                     )
                 );
@@ -120,20 +119,20 @@ class ScoreController extends BaseController
     }
 
     /**
-     * @param $id
+     * @param $slug
      *
      * @return Response
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      */
-    public function deleteAction($id)
+    public function deleteAction($slug)
     {
-        $score = $this->getScoreRepository()->find($id);
+        $sponsor = $this->getSponsorRepository()->findBy(array('slug' => $slug));
 
-        if (!$score) {
+        if (!$sponsor) {
             throw new NotFoundHttpException();
         }
 
-        $this->getEntityManager()->remove($score);
+        $this->getEntityManager()->remove($sponsor);
         $this->getEntityManager()->flush();
 
         $response = new Response();

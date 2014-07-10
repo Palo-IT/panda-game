@@ -1,0 +1,7 @@
+parameters:
+#    panda_game_sponsor.example.class: PandaGame\Bundle\SponsorBundle\Example
+
+services:
+#    panda_game_sponsor.example:
+#        class: %panda_game_sponsor.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

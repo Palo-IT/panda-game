@@ -3,7 +3,6 @@
 namespace PandaGame\Bundle\ScoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use PandaGame\Bundle\UserBundle\PandaGameUserBundle;
 
 /**
  * ScorerRepository
@@ -15,7 +14,8 @@ class ScoreRepository extends EntityRepository
      */
     public function getQueryBuilder()
     {
-        $qb = $this->createQueryBuilder('Score');
+        $qb = $this->createQueryBuilder('score');
+        $qb->select('DISTINCT score');
 
         return $qb;
     }
@@ -31,7 +31,6 @@ class ScoreRepository extends EntityRepository
         if (!empty($usernameCanonical)) {
             $criteria['user'] = $user;
         }
-
 
         return $this->findBy(
             $criteria,

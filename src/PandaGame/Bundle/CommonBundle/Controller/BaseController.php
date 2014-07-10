@@ -40,6 +40,14 @@ class BaseController extends FOSRestController
     }
 
     /**
+     * @return \PandaGame\Bundle\SponsorBundle\Repository\SponsorRepository
+     */
+    public function getSponsorRepository()
+    {
+        return $this->getEntityManager()->getRepository('PandaGameSponsorBundle:Sponsor');
+    }
+
+    /**
      * @param $array
      *
      * @return int
