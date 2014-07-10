@@ -56,7 +56,7 @@ class SponsorController extends BaseController
      */
     public function getAction($slug)
     {
-        $sponsor = $this->getSponsorRepository()->findBy(array('slug' => $slug));
+        $sponsor = $this->getSponsorRepository()->findOneBy(array('slug' => $slug));
 
         if (!$sponsor) {
             throw new NotFoundHttpException();

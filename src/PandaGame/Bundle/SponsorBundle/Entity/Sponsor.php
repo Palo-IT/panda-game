@@ -17,10 +17,10 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class Sponsor
 {
-    const TYPE_BRONZE   = 0;
-    const TYPE_SILVER   = 1;
-    const TYPE_GOLD     = 2;
-    const TYPE_PLATINUM = 3;
+    const TYPE_BRONZE   = 1;
+    const TYPE_SILVER   = 2;
+    const TYPE_GOLD     = 3;
+    const TYPE_PLATINUM = 4;
 
     const STATUS_INACTIVE    = 0;
     const STATUS_ACTIVE      = 1;
@@ -101,7 +101,7 @@ class Sponsor
      * @ORM\Column(name="type", type="integer", nullable=false)
      *
      * @Assert\NotNull()
-     * @Assert\Choice({0, 1, 2, 3})
+     * @Assert\Choice({1, 2, 3, 0})
      *
      * @Groups({"list", "details"})
      */
