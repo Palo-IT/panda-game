@@ -26,7 +26,8 @@
         "nelmio/api-doc-bundle": "@dev",
         "escapestudios/wsse-authentication-bundle": "2.3.x-dev",
         "coresphere/console-bundle": "dev-master",
-        "willdurand/hateoas-bundle": "@stable"
+        "willdurand/hateoas-bundle": "@stable",
+        "willdurand/faker-bundle": "@stable"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

@@ -2,6 +2,3 @@ parameters:
 #    panda_game_score.example.class: PandaGame\Bundle\ScoreBundle\Example
 
 services:
-#    panda_game_score.example:
-#        class: %panda_game_score.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]

@@ -34,3 +34,16 @@ assetic:
 
 #swiftmailer:
 #    delivery_address: me@example.com
+
+bazinga_faker:
+    orm: doctrine
+    entities:
+        PandaGame\Bundle\UserBundle\Entity\User:
+            number: 10
+        PandaGame\Bundle\SponsorBundle\Entity\Sponsor:
+            number: 1000
+        PandaGame\Bundle\ScoreBundle\Entity\Score:
+            number: 1000
+            custom_formatters:
+                user: { method: user }
+
