@@ -29,6 +29,12 @@ class ScoreController extends BaseController
      *  description="Order results by parameter. If the parameter is prefixed by '-' we go in decreasing order."
      * )
      *
+     * @QueryParam(
+     *  name="limit",
+     *  requirements="int",
+     *  description="Maximum number of Scores returned."
+     * )
+     *
      * @ApiDoc(resource=true, description="Get scores by username or for all")
      */
     public function cgetAction(Request $request)
@@ -36,7 +42,7 @@ class ScoreController extends BaseController
         $defaultOrder = array('creation' => 'DESC');
         $order        = $this->formatOrderAsArray($request->get('order'), $defaultOrder);
 
-        $scores = $this->getScoreRepository()->findBy(array(), $order);
+        $scores = $this->getScoreRepository()->findBy(array(), $order, $request->get('limit'));
 
         $view = $this->view($scores, $this->getResponseCodeForList($scores));
         $view->setSerializationContext(SerializationContext::create()->setGroups(array('list')));

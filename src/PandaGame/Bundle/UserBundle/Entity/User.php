@@ -7,6 +7,7 @@ use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\Accessor;
 
 /**
  * PandaGame\Bundle\UserBundle\Entity\User
@@ -45,8 +46,9 @@ class User extends BaseUser
      * @ORM\Column(name="avatar", type="string", nullable=false)
      *
      * @Groups({"list", "details"})
+     * @Accessor(getter="getLogoWebPath", setter="setLogo")
      */
-    private $avatar = 'default-avatar.png';
+    private $avatar = 'default.png';
 
     /**
      * @var ArrayCollection $score
@@ -80,6 +82,32 @@ class User extends BaseUser
     public function getAvatar()
     {
         return $this->avatar;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAvatarWebPath()
+    {
+        return 'http://' . $this->getAvatarAbsoluteDir() . '/' . $this->getAvatar();
+    }
+
+    /**
+     * Get the avatar absolute directory
+     *
+     * @return string
+     */
+    public function getAvatarAbsoluteDir()
+    {
+        return rtrim($_SERVER['HTTP_HOST'], '/') . "/" . $this->getAvatarWebDir();
+    }
+
+    /**
+     * @return string
+     */
+    private function getAvatarWebDir()
+    {
+        return 'files/user/avatar';
     }
 
     /**

@@ -5,6 +5,7 @@ namespace PandaGame\Bundle\SponsorBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\Accessor;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -80,8 +81,9 @@ class Sponsor
      * @Assert\Length(max=255)
      *
      * @Groups({"list", "details"})
+     * @Accessor(getter="getLogoWebPath", setter="setLogo")
      */
-    private $logo = 'default-sponsor-logo.png';
+    private $logo = 'default.png';
 
     /**
      * @var string $website
@@ -181,6 +183,32 @@ class Sponsor
     public function getLogo()
     {
         return $this->logo;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLogoWebPath()
+    {
+        return 'http://' . $this->getLogoAbsoluteDir() . '/' . $this->getLogo();
+    }
+
+    /**
+     * Get the logo absolute directory
+     *
+     * @return string
+     */
+    public function getLogoAbsoluteDir()
+    {
+        return rtrim($_SERVER['HTTP_HOST'], '/') . "/" . $this->getLogoWebDir();
+    }
+
+    /**
+     * @return string
+     */
+    private function getLogoWebDir()
+    {
+        return 'files/sponsor/logo';
     }
 
     /**

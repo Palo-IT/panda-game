@@ -28,6 +28,11 @@ class SponsorController extends BaseController
      *  requirements="(creation|creation-)",
      *  description="Order results by parameter. If the parameter is prefixed by '-' we go in decreasing order."
      * )
+     * @QueryParam(
+     *  name="limit",
+     *  requirements="int",
+     *  description="Maximum number of Sponsors returned."
+     * )
      *
      * @ApiDoc(resource=true, description="Get all scores")
      */
@@ -36,7 +41,7 @@ class SponsorController extends BaseController
         $defaultOrder = array('type' => 'DESC', 'name' => 'ASC');
         $order        = $this->formatOrderAsArray($request->get('order'), $defaultOrder);
 
-        $sponsors = $this->getSponsorRepository()->findBy(array(), $order);
+        $sponsors = $this->getSponsorRepository()->findBy(array(), $order, $request->get('limit'));
 
         $view = $this->view($sponsors, $this->getResponseCodeForList($sponsors));
         $view->setSerializationContext(SerializationContext::create()->setGroups(array('list')));

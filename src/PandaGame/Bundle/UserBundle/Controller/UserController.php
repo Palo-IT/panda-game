@@ -31,6 +31,12 @@ class UserController extends BaseController
      *  description="Order results by parameter. If the parameter is prefixed by '-' we go in decreasing order."
      * )
      *
+     * @QueryParam(
+     *  name="limit",
+     *  requirements="int",
+     *  description="Maximum number of Users returned."
+     * )
+     *
      * @ApiDoc(resource=true, description="Get all the users")
      */
     public function cgetAction(Request $request)
@@ -38,7 +44,7 @@ class UserController extends BaseController
         $defaultOrder = array('username' => 'ASC');
         $order = $this->formatOrderAsArray($request->get('order'), $defaultOrder);
 
-        $users = $this->getUserRepository()->findBy(array(), $order);
+        $users = $this->getUserRepository()->findBy(array(), $order, $request->get('limit'));
 
         $view = $this->view($users, $this->getResponseCodeForList($users));
         $view->setSerializationContext(SerializationContext::create()->setGroups(array('list')));
