@@ -27,8 +27,8 @@ class ScoreType extends AbstractType
     private function addResultField(FormBuilderInterface $builder, array $options)
     {
         $builder->add(
-            'result',
-            'integer'
+                'result',
+                'integer'
         );
 
         return $this;
@@ -40,10 +40,10 @@ class ScoreType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(
-            array(
-                'data_class'      => 'PandaGame\Bundle\ScoreBundle\Entity\Score',
-                'csrf_protection' => false
-            )
+                 array(
+                     'data_class'      => 'PandaGame\Bundle\ScoreBundle\Entity\Score',
+                     'csrf_protection' => false
+                 )
         );
     }
 

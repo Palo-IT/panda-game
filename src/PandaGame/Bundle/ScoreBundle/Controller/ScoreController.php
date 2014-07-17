@@ -97,7 +97,7 @@ class ScoreController extends BaseController
         $statusCode = $score->isNew() ? Response::HTTP_CREATED : Response::HTTP_NO_CONTENT;
 
         $form = $this->createForm(new ScoreType(), $score, array('method' => 'POST'));
-        $form->handleRequest($request);
+        $form->submit($request);
 
         if ($form->isValid()) {
             $this->getEntityManager()->persist($score);
@@ -106,7 +106,7 @@ class ScoreController extends BaseController
             $response = new Response();
             $response->setStatusCode($statusCode);
 
-            if (Response::HTTP_CREATED === $statusCode) {
+            if ($statusCode === Response::HTTP_CREATED) {
                 $response->headers->set(
                     'Location',
                     $this->generateUrl(
