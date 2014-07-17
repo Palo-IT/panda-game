@@ -46,7 +46,7 @@ class User extends BaseUser
      * @ORM\Column(name="avatar", type="string", nullable=false)
      *
      * @Groups({"list", "details"})
-     * @Accessor(getter="getLogoWebPath", setter="setLogo")
+     * @Accessor(getter="getAvatarWebPath", setter="setAvatar")
      */
     private $avatar = 'default.png';
 
