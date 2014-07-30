@@ -1,8 +1,5 @@
-# IDE Files
+#IDE
 .idea
-
-# Bootstrap
-app/bootstrap*
 
 # Symfony directories
 vendor/*
