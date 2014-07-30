@@ -1,13 +1,16 @@
 #IDE
 .idea
 
-# Symfony directories
-vendor/*
-*/logs/*
-*/cache/*
-web/bundles/*
-
-# Configuration files
-app/config/parameters.ini
-app/config/parameters.yml
-
+/web/bundles/
+/app/bootstrap.php.cache
+/app/cache/*
+/app/config/parameters.yml
+/app/logs/*
+!app/cache/.gitkeep
+!app/logs/.gitkeep
+/build/
+/vendor/
+/bin/
+!bin/after_build.sh
+!bin/after_deploy.sh
+/composer.phar
