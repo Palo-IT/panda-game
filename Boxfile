@@ -1,31 +1,32 @@
 web1:
-    shared_writable_dirs:
-     - app/cache
-     - app/logs
+  name: frontend
+  php_version: "5.3.23"
 
-    document_root: web
-    default_gateway: app.php
-    index_list: [app.php]
+  default_gateway: app.php
+  document_root: web
+  index_list:
+    - app.php
+  php_date_timezone: Europe/London
+  php_default_locale: en_GB
+  php_display_errors: "1"
+  php_error_log: true
+  php_error_reporting: 30719
 
-    php_version: 5.3.8
-    php_extensions:
-     - apc
-     - intl
-     - mbstring
-     - xsl
-     - mysql
-     - pdo_mysql
-     - zip
-    php_short_open_tag: "0"
-    php_magic_quotes_gpc: "0"
-    php_register_globals: "0"
-    php_session_autostart: "0"
+  php_extensions:
+    - apc
+    - curl
+    - intl
+    - mbstring
+    - mcrypt
+    - mysqli
+    - mysql
+    - pdo_mysql
+    - yaml
+    - zip
+    - memcached
+    - memcache
 
-    after_build:
-     - "bash bin/after_build.sh"
-
-    #before_deploy:
-    # - "php app/console doctrine:migrations:migrate --no-interaction"
-
-    after_deploy:
-     - "bash bin/after_deploy.sh"
+  shared_writable_dirs:
+    - app/cache
+    - app/logs
+    - app/data
