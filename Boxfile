@@ -1,0 +1,32 @@
+web1:
+  name: frontend
+  php_version: "5.3.23"
+
+  default_gateway: app.php
+  document_root: web
+  index_list:
+    - app.php
+  php_date_timezone: Europe/London
+  php_default_locale: en_GB
+  php_display_errors: "1"
+  php_error_log: true
+  php_error_reporting: 30719
+
+  php_extensions:
+    - apc
+    - curl
+    - intl
+    - mbstring
+    - mcrypt
+    - mysqli
+    - mysql
+    - pdo_mysql
+    - yaml
+    - zip
+    - memcached
+    - memcache
+
+  shared_writable_dirs:
+    - app/cache
+    - app/logs
+    - app/data
