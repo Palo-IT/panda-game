@@ -3,21 +3,19 @@ security:
         FOS\UserBundle\Model\UserInterface: sha512
 
     role_hierarchy:
-        ROLE_MODERATOR:   ROLE_USER
-        ROLE_AUTHOR:      ROLE_USER
-        ROLE_ADMIN:       [ROLE_MODERATOR, ROLE_AUTHOR]
-        ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+        ROLE_ADMIN:       ROLE_USER
+        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
     providers:
-        fos_userbundle:
-            id: fos_user.user_provider.username
+            fos_userbundle:
+                id: fos_user.user_provider.username
 
     firewalls:
         wsse_secured:
             pattern: ^/
             wsse:
                 lifetime: 300 #lifetime of nonce
-                realm: "Secured API" 
+                realm: "Secured API"
                 profile: "UsernameToken"
                 encoder: #digest algorithm
                     algorithm: sha512
@@ -28,7 +26,4 @@ security:
             stateless: true
 
     access_control:
-        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/admin/, role: ROLE_ADMIN }
+        #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
