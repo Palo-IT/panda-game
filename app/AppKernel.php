@@ -17,8 +17,6 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
 
-            new Acme\DemoBundle\AcmeDemoBundle(),
-
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new FOS\UserBundle\FOSUserBundle(),
             new FOS\RestBundle\FOSRestBundle(),
@@ -26,6 +24,7 @@ class AppKernel extends Kernel
             new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
             new Escape\WSSEAuthenticationBundle\EscapeWSSEAuthenticationBundle(),
             new CoreSphere\ConsoleBundle\CoreSphereConsoleBundle(),
+
             new Bazinga\Bundle\HateoasBundle\BazingaHateoasBundle(),
 
             new PandaGame\Bundle\UserBundle\PandaGameUserBundle(),
